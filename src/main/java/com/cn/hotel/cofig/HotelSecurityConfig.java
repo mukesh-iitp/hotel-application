@@ -25,7 +25,9 @@ public class HotelSecurityConfig {
 			.anyRequest()
 			.authenticated()
 			.and()
-			.formLogin();
+			//.formLogin();	//for form login authentication
+			.httpBasic(); // for Basic authentication
+			
 		return http.build();
 		
 	}
