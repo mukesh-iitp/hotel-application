@@ -2,6 +2,8 @@ package com.cn.hotel.cofig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class HotelSecurityConfig {
 	
 	@Bean
@@ -22,7 +25,7 @@ public class HotelSecurityConfig {
 		http.csrf().disable()
 			.authorizeHttpRequests()
 			//.antMatchers("/hotel/create").hasRole("ADMIN")
-			.requestMatchers("/hotel/create").hasRole("ADMIN")
+			//.requestMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
 			.anyRequest()
 			.authenticated()
