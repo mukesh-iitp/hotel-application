@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -22,6 +21,9 @@ public class HotelSecurityConfig {
 		
 		http.csrf().disable()
 			.authorizeHttpRequests()
+			//.antMatchers("/hotel/create").hasRole("ADMIN")
+			.requestMatchers("/hotel/create").hasRole("ADMIN")
+			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
 			.anyRequest()
 			.authenticated()
 			.and()
@@ -42,9 +44,9 @@ public class HotelSecurityConfig {
 				.build();
 		
 		UserDetails user2 = User.builder()
-				.username("steave")
+				.username("steve")
 				.password(passwordEncoder().encode("nopassword"))
-				.roles("NORMAL")
+				.roles("ADMIN")
 				.build();
 		
 		return new InMemoryUserDetailsManager(user1, user2);
