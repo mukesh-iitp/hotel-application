@@ -37,6 +37,8 @@ public class HotelSecurityConfig {
 		
 	}
 	
+	/*
+	
 	@Bean
 	public UserDetailsService users() {
 		
@@ -60,5 +62,6 @@ public class HotelSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	*/
 
 }
