@@ -44,6 +44,11 @@ public class HotelSecurityConfig {
 		return builder.getAuthenticationManager();
 	}
 	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	/*
 	
 	@Bean
