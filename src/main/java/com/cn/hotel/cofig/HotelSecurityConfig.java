@@ -26,6 +26,7 @@ public class HotelSecurityConfig {
 		
 		http.csrf().disable()
 			.authorizeHttpRequests()
+			.requestMatchers("/user/register").permitAll()
 			//.antMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
