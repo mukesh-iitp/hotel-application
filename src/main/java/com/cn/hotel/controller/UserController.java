@@ -20,7 +20,7 @@ import com.cn.hotel.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
-	public final UserService userService;
+	private final UserService userService;
 	
 	@Autowired
 	public UserController(UserService userService) {
