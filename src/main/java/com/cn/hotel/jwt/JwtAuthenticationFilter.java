@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -31,18 +32,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
 		String requestHeader = request.getHeader("Authorization");
 
-		//Authorization will have value like - Bearer ifsdoifyasdewryydsfasdfa
-
+		//Authorization will have value like - "Bearer ifsdoifyasdewryydsfasdfa"
 		String username = null;
-		String [] tokenArray = null;
+		//String [] tokenArray = null;
 		String token = null;
 
-		if(requestHeader != null && requestHeader.startsWith("Bearer")) {
+		if(requestHeader != null && requestHeader.startsWith("Bearer ")) {
 
-			//token = requestHeader.substring(7);
-
-			tokenArray = requestHeader.split(" ");
-			token = tokenArray[1];
+			token = requestHeader.substring(7);
+			//tokenArray = requestHeader.split(" ");
+			//token = tokenArray[1];
 
 			username = jwtHelper.getUsernameFromToken(token);
 
@@ -54,18 +53,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
 							new UsernamePasswordAuthenticationToken(token, null, userDetails.getAuthorities());
-					usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetails(request));
+					usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
 				}
 
 			}
+			
 
 		}
 		filterChain.doFilter(request, response);
-
 	}
-
-
 
 }

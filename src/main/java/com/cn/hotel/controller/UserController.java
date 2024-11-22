@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.hotel.dto.UserRequest;
-import com.cn.hotel.model.User;
+import com.cn.hotel.model.Users;
 import com.cn.hotel.service.UserService;
 
 @RestController
@@ -30,7 +30,7 @@ public class UserController {
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('ADMIN')")
-	public List<User> getAllUsers(){
+	public List<Users> getAllUsers(){
 		return userService.getAllUsers();
 	}
 	

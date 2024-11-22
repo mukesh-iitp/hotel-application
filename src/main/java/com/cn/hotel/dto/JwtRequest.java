@@ -1,17 +1,17 @@
 package com.cn.hotel.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequest {
+@Builder
+public class JwtRequest {
 	
 	private String username;
 	private String password;
-	//user type missing
-	private String userType;
 
 }
