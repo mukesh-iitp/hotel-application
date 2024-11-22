@@ -27,7 +27,7 @@ import com.mysql.cj.Session;
 @Configuration
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class HotelSecurityConfig {
 	
 	@Autowired

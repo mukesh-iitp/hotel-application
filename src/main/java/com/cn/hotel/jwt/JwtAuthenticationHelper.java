@@ -1,6 +1,5 @@
 package com.cn.hotel.jwt;
 
-import java.security.Signature;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
