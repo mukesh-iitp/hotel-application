@@ -102,7 +102,14 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 			<!--<version>3.3.5</version>-->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.okta.spring/okta-spring-boot-starter -->
+		<dependency>
+		    <groupId>com.okta.spring</groupId>
+		    <artifactId>okta-spring-boot-starter</artifactId>
+		    <version>3.0.7</version>
+		</dependency>
 
+		
 	</dependencies>
 	<build>
 		<plugins>

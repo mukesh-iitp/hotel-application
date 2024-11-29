@@ -1,5 +1,6 @@
 package com.cn.hotel.cofig;
 
+import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -42,25 +44,31 @@ public class HotelSecurityConfig {
 
 		http.csrf().disable()
 			.authorizeHttpRequests()
-			.requestMatchers("/user/register","/auth/login").permitAll()
+			.requestMatchers("/user/register").permitAll()
+			//.requestMatchers("/user/register","/auth/login").permitAll()
 			//.antMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
-			.anyRequest()
-			.authenticated()
+			//.anyRequest()
+			//.authenticated()
 			//.and()
-			//.rememberMe().userDetailsService(userDetailsService)
-			//.and()
-			//.formLogin()	//for form login authentication
 			//.httpBasic(); // for Basic authentication
-			//.loginPage("/login").permitAll()
 			.and()
-			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+			.rememberMe().userDetailsService(userDetailsService)
+			.and()
+			.formLogin()	//for form login authentication
+			.loginPage("/login").permitAll()
+			.and()
+			.logout().deleteCookies("remember-me")
+			//.and()
+			//.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 			//.sessionManagement()
 			//.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			//.logout().deleteCookies("remember-me");
+			.and()
+			.oauth2Login()
+			.loginPage("/login");
 		
-		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+		//http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 
