@@ -49,8 +49,8 @@ public class HotelSecurityConfig {
 			//.antMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
-			//.anyRequest()
-			//.authenticated()
+			.anyRequest()
+			.authenticated()
 			//.and()
 			//.httpBasic(); // for Basic authentication
 			.and()
