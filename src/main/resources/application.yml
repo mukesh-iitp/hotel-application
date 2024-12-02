@@ -11,13 +11,13 @@ spring:
       client:
         registration:
           google:
-            client-id: 371326339584-3rpcdc3flchk3geusd0skrau6it2dip7.apps.googleusercontent.com
-            client-secret: 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
+            client-id: GOOGLE_CLIENT_ID
+            client-secret: GOOGLE_CLIENT_ID
 
 okta:
   oauth2:
     issuer: https://dev-89351563.okta.com/oauth2/default
-    client-id: 0oalge2s8iuMghBz45d7
-    client-secret: fXRLhexr6cBbkqv1b-N4To_CeMeinq_u6SoQJc0oOSvvthymgF7l-_GPl_bUfgEM
+    client-id: OKTA_CLIENT_ID
+    client-secret: OKTA_CLIENT_ID
     
     

@@ -55,8 +55,8 @@ public class HotelSecurityConfig {
 
 		http.csrf().disable()
 			.authorizeHttpRequests()
-			.requestMatchers("/user/register").permitAll()
-			//.requestMatchers("/user/register","/auth/login").permitAll()
+			//.requestMatchers("/user/register").permitAll()
+			.requestMatchers("/user/register","/auth/login").permitAll()
 			//.antMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/create").hasRole("ADMIN")
 			//.requestMatchers("/hotel/**").hasRole("ADMIN") //for any api request
@@ -64,24 +64,24 @@ public class HotelSecurityConfig {
 			.authenticated()
 			//.and()
 			//.httpBasic(); // for Basic authentication
-			.and()
-			.rememberMe().userDetailsService(userDetailsService)
-			.and()
-			.formLogin()	//for form login authentication
-			.loginPage("/login").permitAll()
+			//.and()
+			//.rememberMe().userDetailsService(userDetailsService)
+			//.and()
+			//.formLogin()	//for form login authentication
+			//.loginPage("/login").permitAll()
 			.and()
 			.logout().deleteCookies("remember-me")
-			//.and()
-			//.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+			.and()
+			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 			//.sessionManagement()
 			//.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			.and()
-			.oauth2Login()
-			.loginPage("/login")
-			.userInfoEndpoint()
-			.oidcUserService(oidcUserService());
+			//.and()
+			//.oauth2Login()
+			//.loginPage("/login")
+			//.userInfoEndpoint()
+			//.oidcUserService(oidcUserService());
 		
-		//http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 
