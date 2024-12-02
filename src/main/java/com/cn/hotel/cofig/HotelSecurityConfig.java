@@ -16,14 +16,22 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.cn.hotel.jwt.JwtAuthenticationFilter;
+import com.cn.hotel.model.Users;
+import com.cn.hotel.repository.UserRepository;
 import com.mysql.cj.Session;
 
 @Configuration
@@ -37,6 +45,9 @@ public class HotelSecurityConfig {
 	
 	@Autowired
 	JwtAuthenticationFilter filter;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 
 	@Bean
@@ -66,7 +77,9 @@ public class HotelSecurityConfig {
 			//.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			.and()
 			.oauth2Login()
-			.loginPage("/login");
+			.loginPage("/login")
+			.userInfoEndpoint()
+			.oidcUserService(oidcUserService());
 		
 		//http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
@@ -82,6 +95,23 @@ public class HotelSecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService(){
+		
+		return userRequest ->{
+			
+			OidcUserService oidcUserService = new OidcUserService();
+			OidcUser oidcUser = oidcUserService.loadUser(userRequest);
+			
+			Users user = userRepository.findByUsername(oidcUser.getAttribute("email"))
+					.orElseThrow(()-> 
+					new UsernameNotFoundException("User not found for email: "
+							+oidcUser.getAttribute("email")));
+			
+			return new DefaultOidcUser(user.getAuthorities(), userRequest.getIdToken());
+		};
+		
 	}
 
 	/*
